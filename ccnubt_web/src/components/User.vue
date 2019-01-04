@@ -4,24 +4,25 @@
     <el-table-column prop="sex" label="性别" ></el-table-column>
     <el-table-column prop="phone" label="电话" ></el-table-column>
     <el-table-column prop="qq" label="QQ" ></el-table-column>
-    <el-table-column prop="last_active_time" label="最后活跃时间" ></el-table-column>
+    <el-table-column label="最后活跃时间" >
+      <template slot-scope="scope">
+        {{scope.row.last_active_time | dateFormat}}
+      </template>
+    </el-table-column>
     <el-table-column label="禁用/授权">
       <template slot-scope="scope">
         <el-switch v-model="scope.row.active"
-                   active-text="正常" active-color="#13ce66"
-                   inactive-text="禁用" inactive-color="#ff4949"
+                   active-color="#13ce66" inactive-color="#ff4949"
                    @change="active(scope.row.id)">
         </el-switch>
       </template>
     </el-table-column>
-    <el-table-column label="角色">
+    <el-table-column label="角色" width="120px">
       <template slot-scope="scope">
-        <el-select v-model="scope.row.role" placeholder="请选择">
+        <el-select v-model="scope.row.role" placeholder="请选择" @change="auth_role(scope.row.role, scope.row.id)">
           <el-option
-            v-for="item in role_options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
+            v-for="item in role_options" :key="item.value"
+            :label="item.label" :value="item.value">
           </el-option>
         </el-select>
       </template>
@@ -30,6 +31,7 @@
 </template>
 
 <script>
+  import formatDate from '@/scripts/dateFormat'
   export default {
     data() {
       return {
@@ -62,10 +64,25 @@
               this.reload()
             }
           })
+      },
+      auth_role:function(role, id){
+        // console.log(role+' '+id)
+        this.$http.get('/api/root/user/role/',{params:{api_key:this.$store.getters.GET_API_KEY,id,role}})
+          .then(res=>{
+            if (res.data['result_code']==1){
+              this.reload()
+            }
+          })
       }
     },
     created:function () {
       this.reload()
+    },
+    filters:{
+      dateFormat: function (date) {
+        let d = new Date(date)
+        return formatDate(d,'yyyy/MM/dd hh:mm')
+      }
     }
   }
 </script>

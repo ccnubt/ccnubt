@@ -1,5 +1,6 @@
 <template>
     <div id="login">
+      <img src="../assets/bt.jpg" width="300px">
       {{msg}}
       <el-form label-width="60px">
         <el-form-item label="用户名">
