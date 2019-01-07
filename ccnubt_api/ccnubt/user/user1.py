@@ -120,7 +120,8 @@ def unerder_reservations():
                 "qq": u.qq
             },
             "id": r.id,
-            "detail": r.detail
+            "detail": r.detail,
+            "create_time": r.create_time
         })
     return jsonify({
         "result_code": 1,
@@ -133,7 +134,7 @@ def unerder_reservations():
 def my_ordered_reservation():
     if current_user.role < 1:
         abort(403)
-    rs = db.session.query(Reservation).filter_by(bt_user_id=current_user.id).all()
+    rs = db.session.query(Reservation).filter_by(bt_user_id=current_user.id).order_by('-id').all()
     r_data = []
 
     for r in rs:
@@ -146,7 +147,7 @@ def my_ordered_reservation():
         }
         r_data.append({
             "id": r.id,
-            "sataus": r.status,
+            "status": r.status,
             "detail": r.detail,
             "create_time": r.create_time,
             "finish_time": r.finish_time,
@@ -157,5 +158,5 @@ def my_ordered_reservation():
         })
     return jsonify({
         "result_code": 1,
-        "evaluations": r_data
+        "reservations": r_data
     })

@@ -5,6 +5,7 @@ from ..model import Reservation, User
 from .. import db
 from datetime import datetime
 from . import bp
+from sqlalchemy import and_
 
 
 # status: -1取消 0待接单 1已接单 2维修中 3维修完成 4失败 5已确认，待评价 6结束
@@ -12,6 +13,14 @@ from . import bp
 @login_required
 def new_reservation():
     json_data = json.loads(request.data)
+    uid = current_user.id
+    r = Reservation.query.filter_by(user_id=uid).\
+        filter(and_(Reservation.status < 6, Reservation.status >= 0)).first()
+    if r:
+        return jsonify({
+            "result_code": 2,
+            "err_msg": "exist reservation unfinished"
+        })
     r = Reservation()
     r.user_id = current_user.id
     r.detail = json_data.get("detail")
@@ -113,7 +122,7 @@ def evaluate_reservation(rid):
 @login_required
 def my_reservation():
     id = current_user.id
-    rs = db.session.query(Reservation).filter_by(user_id=id).all()
+    rs = db.session.query(Reservation).filter_by(user_id=id).order_by('-id').all()
     r_data = []
 
     for r in rs:
@@ -128,7 +137,7 @@ def my_reservation():
             }
         r_data.append({
             "id": r.id,
-            "sataus": r.status,
+            "status": r.status,
             "detail": r.detail,
             "create_time": r.create_time,
             "finish_time": r.finish_time,
@@ -139,7 +148,7 @@ def my_reservation():
         })
     return jsonify({
         "result_code": 1,
-        "evaluations": r_data
+        "reservations": r_data
     })
 
 

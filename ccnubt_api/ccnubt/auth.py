@@ -19,6 +19,7 @@ def login():
         "err_msg": ""
     }
     data = request.get_data()
+    print(data)
     try:
         json_code = json.loads(data)['code']
     except:
@@ -53,6 +54,8 @@ def login():
                 "role": 0
             }
         }
+    elif not user.active:
+        abort(403)
     elif not user.enable:
         resp_data = {
             "result_code": 2,  # 用户未注册
@@ -67,7 +70,10 @@ def login():
             "api_key": api_key,
             "user_info": {
                 "role": user.role,
-                "name": user.name
+                "name": user.name,
+                "phone":user.phone,
+                "qq": user.qq,
+                "sex": user.sex
             }
         }
     user.api_key = api_key
@@ -105,7 +111,10 @@ def register():
             "msg": "register sucess",
             "user_info": {
                 "name": user.name,
-                "role": user.role
+                "role": user.role,
+                "qq": user.qq,
+                "phone": user.phone,
+                "sex": user.sex
             }
         }
     except:

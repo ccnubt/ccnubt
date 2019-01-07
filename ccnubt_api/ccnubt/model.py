@@ -52,6 +52,8 @@ def load_user_from_request(request):
     if api_key:
         user = User.query.filter_by(api_key=api_key).first()
         if user:
+            if not user.active:
+                return False
             return user
     return None
 
