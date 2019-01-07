@@ -39,7 +39,7 @@
           .then(res => {
             if (res.data['result_code'] == 1){
               this.$store.commit('SET_API_KEY',res.data['api_key'])
-              this.$router.push('manger/')
+              this.$router.push('manger/user')
             }
             else {
               this.msg = res.data['err_msg']

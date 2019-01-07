@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Manger from '@/components/Manger'
-import User from '@/components/User'
-import Reservation from '@/components/Reservation'
+import Manger from '@/components/manger/Manger'
+import User from '@/components/manger/User'
+import Reservation from '@/components/manger/Reservation'
+import Activity from '@/components/manger/Activity'
 import Login from '@/components/Login'
 import store from '@/store'
 
@@ -28,6 +29,9 @@ const router = new Router({
         },{
           path: 'reservation/',
           component: Reservation
+        }, {
+          path: 'activity/',
+          component: Activity
         }
       ]
     }
