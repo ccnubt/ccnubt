@@ -1,4 +1,8 @@
 <template>
+  <div>
+    <div style="width: 100%; text-align: right">
+      <a href="https://yuancl.site/doc.html"><el-button type="success" plain>API文档</el-button></a>
+    </div>
     <div id="login">
       <img src="../assets/bt.jpg" width="300px">
       {{msg}}
@@ -12,6 +16,7 @@
       </el-form>
       <el-button v-loading="loading" type="primary" @click="user_login">登录</el-button>
     </div>
+  </div>
 </template>
 
 <script>
@@ -28,7 +33,7 @@
     methods:{
       user_login: function () {
         this.loading = true
-        console.log(this.username + this.password)
+        // console.log(this.username + this.password)
         this.$http
           .post('/api/root/login/',{username:this.username, password:this.password})
           .then(res => {

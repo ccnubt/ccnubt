@@ -1,0 +1,4 @@
+dist/
+*.sh
+node_modules/
+
