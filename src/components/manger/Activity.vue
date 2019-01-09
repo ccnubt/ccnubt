@@ -2,13 +2,13 @@
   <div>
     <el-button type="primary" @click="add_button">添加活动</el-button>
     <el-dialog  :title="form.head"  :visible.sync="form.show_dlg">
-      <el-form label-width="80px" style="text-align: left">
-        <el-form-item label="活动名称" >
+      <el-form label-width="20%"  label-position="top" size="mini" style="text-align: left">
+        <el-form-item label="活动名称">
           <el-input v-model="form.title" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="活动名称" >
           <el-date-picker v-model="form.time" type="datetimerange" range-separator="至"
-                          start-placeholder="开始日期" end-placeholder="结束日期">
+                          start-placeholder="开始日期" end-placeholder="结束日期" style="width: 50%">
           </el-date-picker>
         </el-form-item>
         <el-form-item  label="活动地点" >
@@ -24,7 +24,7 @@
       </div>
     </el-dialog>
     <div>
-      <el-card v-for="a in activities" class="box-card" shadow="hover">
+      <el-card v-for="a in activities" class="box-card" shadow="hover":key="a.id">
         <div slot="header" class="clearfix">
           <span>{{a.title}}</span>
           <el-button style="float: right; margin: 2px" type="danger" @click="del_activity(a.id)" v-loading="del_loading">删除</el-button>
