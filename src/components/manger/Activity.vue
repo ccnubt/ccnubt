@@ -64,6 +64,10 @@
       add_button: function(){
         this.form.show_dlg = true;
         this.form.id = null;
+        this.form.title = null;
+        this.form.content = null;
+        this.form.pos = null;
+        this.form.time = null;
         this.form.head = '添加活动';
       },
       edit_button: function(a){
@@ -101,6 +105,7 @@
                 dlg_loading: false,
                 id: null
               }
+              this.reload();
             }
             else{
 

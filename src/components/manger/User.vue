@@ -42,9 +42,6 @@
           },{
             value: 1,
             label: '队员'
-          },{
-            value: 2,
-            label: '管理员'
           }]
       }
     },
