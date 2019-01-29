@@ -5,6 +5,7 @@ import User from '@/components/manger/User'
 import Reservation from '@/components/manger/Reservation'
 import Activity from '@/components/manger/Activity'
 import Login from '@/components/Login'
+import Summary from '@/components/manger/Summary'
 import store from '@/store'
 
 Vue.use(Router)
@@ -32,6 +33,9 @@ const router = new Router({
         }, {
           path: 'activity/',
           component: Activity
+        },{
+          path: 'summary/',
+          component: Summary
         }
       ]
     }

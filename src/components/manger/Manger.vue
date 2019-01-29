@@ -6,6 +6,7 @@
       <el-menu-item index="/manger/user">用户管理</el-menu-item>
       <el-menu-item index="/manger/reservation">订单中心</el-menu-item>
       <el-menu-item index="/manger/activity">活动管理</el-menu-item>
+      <el-menu-item index="/manger/summary">统计</el-menu-item>
     </el-menu>
     <router-view></router-view>
   </div>
