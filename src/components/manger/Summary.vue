@@ -7,7 +7,7 @@
         @change="date_filter">
       </el-date-picker>
     </div>
-    <div class="table" v-loading="table_loading">
+    <div class="table" v-loading="loading">
       <el-table :data="formdata"  >
         <el-table-column align="center" type="index" />
         <el-table-column align="center" prop="name" label="姓名"  />
@@ -27,7 +27,6 @@
       return {
         date:[],
         formdata:[],
-        table_loading: true,
         pickerOptions: {
           shortcuts: [{
             text: '全部',
@@ -53,12 +52,13 @@
               picker.$emit('pick', [start, end]);
             }
           }]
-        }
+        },
+        loading: true
       }
     },
     methods: {
       reload: function () {
-        this.table_loading = true;
+        this.loading = true;
         
         var from = 0;
         if (this.date[0]){
@@ -78,8 +78,8 @@
               if (res.data['result_code']==1){
                 this.formdata = res.data['data']
               }
+              this.loading = false;
             })
-        this.table_loading = false;
       },
       date_filter: function () {
         if (this.date.length == 2){
