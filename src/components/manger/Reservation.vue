@@ -1,18 +1,21 @@
 <template>
   <div id="reservation">
     <div class="block">
-      <!--<span class="demonstration">带快捷选项</span>-->
-      <el-date-picker v-model="date"
-                      type="daterange" align="right" unlink-panels
+      <el-date-picker v-model="date" type="daterange" align="right" unlink-panels
                       range-separator="至" start-placeholder="开始日期"
-                      end-placeholder="结束日期" :picker-options="pickerOptions">
+                      end-placeholder="结束日期" :picker-options="pickerOptions"
+                      @change="date_change">
       </el-date-picker>
     </div>
     <div  v-loading="loading">
-      <el-collapse v-for="reservation in reservations"
-                   v-if="date_check(reservation.create_time)" :key="reservation.id">
+      <el-collapse v-for="reservation in reservations" :key="reservation.id">
         <ReservationItem v-bind:r="reservation"></ReservationItem>
       </el-collapse>
+    </div>
+    <div class="page">
+      <el-pagination :page-size="20"
+          layout="prev, pager, next" :total="page.total" background
+          :current-page="page.current" @current-change="current_change" />
     </div>
   </div>
 </template>
@@ -60,29 +63,49 @@
               picker.$emit('pick', [start, end]);
             }
           }]
+        },
+        
+        //分页
+        page: {
+          current: 1,
+          total: 1
         }
       }
     },
     methods:{
       reload: function () {
+        var d_from = 0;
+        var d_to = new Date().getTime();
+        if (this.date && this.date.length==2){
+          d_from = this.date[0].getTime()
+          d_to = this.date[1].getTime()
+        }
+        console.log("reload")
         this.loading = true;
-        this.$http.get('/api/root/reservation/',{params:{api_key:this.$store.getters.GET_API_KEY}})
+        this.$http.get('/api/root/reservation/',{
+          params:{
+            api_key:this.$store.getters.GET_API_KEY,
+            page: this.page.current,
+            from: d_from,
+            to: d_to
+          }
+        })
           .then(res=>{
             if (res.data['result_code'] == 1){
+              this.page.total = res.data["total"]
               this.reservations = res.data['reservations']
             }
             this.loading = false
           })
         
       },
-      date_check:function (v) {
-        // let d = Date(v)
-        let d = new Date(v)
-        if (this.date.length!=2) return true;
-        // console.log(this.date[0]<=d)
-        // console.log(d <= this.date[1])
-        // console.log(this.date[0]+'---'+d+'-----'+ this.date[1])
-        return (this.date[0]<=d) && (d <= this.date[1])
+      current_change: function (currentPage) {
+        this.page.current = currentPage;
+        this.reload();
+      },
+      date_change: function () {
+        console.log("date_change")
+        this.reload();
       }
     },
     created:function () {
@@ -95,5 +118,9 @@
   #reservation{
     padding: 10px;
     text-align: left;
+    margin: 0 5%;
+  }
+  .page{
+    text-align: center;
   }
 </style>
