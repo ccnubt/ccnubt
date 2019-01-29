@@ -71,8 +71,9 @@
             if (res.data['result_code'] == 1){
               this.reservations = res.data['reservations']
             }
+            this.loading = false
           })
-        this.loading = false
+        
       },
       date_check:function (v) {
         // let d = Date(v)
