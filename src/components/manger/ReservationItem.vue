@@ -1,12 +1,12 @@
 <template>
-  <el-collapse-item  name="r.id">
+  <el-collapse-item  name="r.id" class="card">
     <div slot="title" slot-scope="scope">
       <div>
         <div style="width: 150px;display:inline-block;text-align: left">订单编号：{{r.id}}</div>
         <div style="display:inline-block">
-          订单状态：<el-tag v-if="r.status!=6 " v-bind:type="status_tag[r.status+1].type">{{status_tag[r.status+1].label}}</el-tag>
-          <el-tag v-else-if="r.solved" type="success">已解决</el-tag>
-          <el-tag v-else type="danger">未解决</el-tag>
+          订单状态：<el-tag  v-bind:type="r.status<=3? status_tag[r.status].type:(r.solved? 'success':'danger')">
+          {{status_tag[r.status].label}}{{r.status>=4? (r.solved? ",维修成功":",维修失败"):''}}
+        </el-tag>
         </div>
         <!--{{status_tag}}-->
       </div>
@@ -65,13 +65,13 @@
             label:"维修中",
             type:""
           },{
-            label:"维修完成,已解决",
-            type:""
-          },{
-            label:"维修完成,未解决",
+            label:"待确认",
             type:""
           },{
             label:"待评价",
+            type:""
+          },{
+            label:"已完成",
             type:""
           }
         ]
@@ -89,8 +89,12 @@
 <style scoped>
   .detail{
     text-align: left;
-    padding: 10px;
-    background-color: #dbdbdb;
+    padding: 3px;
+    font-size: 15px;
+    background-color: #ebe7f3;
+    border-radius: 20px;
   }
-  /*.detail.li.list-style-type: */
+  .card{
+    font-size: 30px;
+  }
 </style>

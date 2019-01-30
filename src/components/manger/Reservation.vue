@@ -116,9 +116,9 @@
 
 <style scoped>
   #reservation{
-    padding: 10px;
+    padding: 5px;
     text-align: left;
-    margin: 0 5%;
+    margin: 0 1%;
   }
   .page{
     text-align: center;
