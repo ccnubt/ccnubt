@@ -12,7 +12,6 @@
         <el-table-column align="center" type="index" />
         <el-table-column align="center" prop="name" label="姓名"  />
         <el-table-column align="center" prop="avg_score" label="用户评价得分"  />
-        <el-table-column align="center" prop="avg_score" label="用户评价得分"  />
         <el-table-column align="center" prop="count" label="接单量" />
         <el-table-column align="center" prop="score" label="得分"  />
       </el-table>
