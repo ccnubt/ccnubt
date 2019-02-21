@@ -7,7 +7,10 @@
         <el-option  label="队员" value="1"/>
       </el-select>
     </div>
+    
+      <el-button type="primary" @click="user_export">导出</el-button>
     <el-table :data="tableData" >
+      <el-table-column align="center" type="index" :index="indexmethod"/>
       <el-table-column prop="name" label="姓名" ></el-table-column>
       <el-table-column prop="sex" label="性别" >
         <template slot-scope="scope">
@@ -104,6 +107,15 @@
       current_change: function (currentPage) { //当前页数变化
         this.page.current = currentPage;
         this.reload();
+      },
+      indexmethod: function (index) {
+        return 20*(this.page.current-1) + index+1;
+      },
+      user_export: function () {
+        this.env
+        let url = '/api/root/export/user?'
+        url = url + 'api_key='+this.$store.getters.GET_API_KEY;
+        window.open(url)
       }
     },
     created:function () {

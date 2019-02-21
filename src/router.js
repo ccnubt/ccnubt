@@ -7,6 +7,7 @@ import Activity from '@/components/manger/Activity'
 import Login from '@/components/Login'
 import Summary from '@/components/manger/Summary'
 import store from '@/store'
+import NewAdmin from '@/components/NewAdmin'
 
 Vue.use(Router)
 
@@ -15,6 +16,14 @@ const router = new Router({
     {
       path: '/',
       component: Login
+    },
+    {
+      path: '/login',
+      component: Login
+    },
+    {
+      path: '/newadmin',
+      component: NewAdmin
     },
     {
       path: '/manger',
@@ -43,7 +52,7 @@ const router = new Router({
 })
 
 router.beforeEach(function(to,from,next){
-  if (to.path == "/")
+  if (to.path == "/" || to.path=='/newadmin')
     next()
   else if (store.getters.GET_API_KEY)
     next()

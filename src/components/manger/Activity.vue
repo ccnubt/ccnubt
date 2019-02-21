@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-button type="primary" @click="add_button">添加活动</el-button>
+    
     <el-dialog  :title="form.head"  :visible.sync="form.show_dlg">
       <el-form label-width="20%"  label-position="top" size="mini" style="text-align: left">
         <el-form-item label="活动名称">
@@ -8,7 +8,7 @@
         </el-form-item>
         <el-form-item label="活动名称" >
           <el-date-picker v-model="form.time" type="datetimerange" range-separator="至"
-                          start-placeholder="开始日期" end-placeholder="结束日期" style="width: 50%">
+                          start-placeh<el-button type="primary" @click="add_button">添加活动</el-button>older="开始日期" end-placeholder="结束日期" style="width: 50%">
           </el-date-picker>
         </el-form-item>
         <el-form-item  label="活动地点" >
