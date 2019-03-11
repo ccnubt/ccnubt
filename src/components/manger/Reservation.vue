@@ -104,7 +104,8 @@
         this.reload();
       },
       date_change: function () {
-        console.log("date_change")
+        // console.log("date_change")
+        this.page.current = 1;
         this.reload();
       }
     },

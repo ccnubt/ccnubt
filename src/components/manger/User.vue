@@ -8,7 +8,8 @@
       </el-select>
     </div>
     
-      <el-button type="primary" @click="user_export">导出</el-button>
+    <!--<el-button type="primary" @click="user_export">导出</el-button>-->
+    
     <el-table :data="tableData" >
       <el-table-column align="center" type="index" :index="indexmethod"/>
       <el-table-column prop="name" label="姓名" ></el-table-column>
@@ -73,6 +74,7 @@
     },
     methods:{
       reload: function () {
+        this.page.current = 1;
         this.$http.get('/api/root/user/',{
           params:{
             api_key: this.$store.getters.GET_API_KEY,
