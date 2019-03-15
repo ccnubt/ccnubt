@@ -39,6 +39,9 @@
                        show-score text-color="#ff9900" score-template="{value}"></el-rate>
         </p>
       </div>
+      <div class="mail_button" v-show="show && r.status>=4 && r.status<=5 && r.formid!='send'">
+        <el-button v-loading="loading" type="primary" @click="send_email(r.id)">发送邮件提醒</el-button>
+      </div>
     </div>
   </el-collapse-item>
 </template>
@@ -74,7 +77,26 @@
             label:"已完成",
             type:""
           }
-        ]
+        ],
+        loading: false,
+        show: true
+      }
+    },
+    methods:{
+      send_email: function (rid) {
+        this.loading = true;
+        this.$http.get('/api/root/user/sendmail/',{
+          params:{
+            api_key:this.$store.getters.GET_API_KEY,
+            rid: rid
+          }
+        })
+         .then(res=>{
+           this.loading = false;
+           if (res.data['result_code'] == 1){
+             this.show = false;
+           }
+         })
       }
     },
     filters:{
@@ -96,5 +118,8 @@
   }
   .card{
     font-size: 30px;
+  }
+  .mail_button{
+    text-align: center;
   }
 </style>

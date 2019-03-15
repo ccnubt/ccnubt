@@ -1,14 +1,14 @@
 <template>
   <div class="user_table">
     <div class="role_filter">
-      <el-select v-model="role" @change="reload" placeholder="全部">
+      <el-select v-model="role" @change="select" placeholder="全部">
         <el-option  label="全部" value="3" default/>
         <el-option  label="用户" value="0"/>
         <el-option  label="队员" value="1"/>
       </el-select>
     </div>
     
-    <!--<el-button type="primary" @click="user_export">导出</el-button>-->
+    <el-button type="primary" @click="user_export">导出</el-button>
     
     <el-table :data="tableData" >
       <el-table-column align="center" type="index" :index="indexmethod"/>
@@ -33,6 +33,11 @@
           </el-switch>
         </template>
       </el-table-column>
+      <!--<el-table-column label="删除">-->
+        <!--<template slot-scope="scope">-->
+          <!--<el-button type="danger" @click="delete_user(scope.row.id)">删除</el-button>-->
+        <!--</template>-->
+      <!--</el-table-column>-->
       <el-table-column label="角色" width="120px">
         <template slot-scope="scope">
           <el-select v-model="scope.row.role" placeholder="请选择" @change="auth_role(scope.row.role, scope.row.id)">
@@ -73,8 +78,11 @@
       }
     },
     methods:{
-      reload: function () {
+      select: function(){
         this.page.current = 1;
+        this.reload();
+      },
+      reload: function () {
         this.$http.get('/api/root/user/',{
           params:{
             api_key: this.$store.getters.GET_API_KEY,
@@ -97,6 +105,15 @@
             }
           })
       },
+      delete_user: function (id) {
+        console.log(id)
+        this.$http.get('/api/root/user/del/',{params:{api_key:this.$store.getters.GET_API_KEY, id:id}})
+            .then(res=>{
+              if (res.data['result_code']==1){
+                this.reload()
+              }
+            })
+      },
       auth_role:function(role, id){
         // console.log(role+' '+id)
         this.$http.get('/api/root/user/role/',{params:{api_key:this.$store.getters.GET_API_KEY,id,role}})
@@ -115,7 +132,7 @@
       },
       user_export: function () {
         this.env
-        let url = '/api/root/export/user?'
+        let url = 'https://ccnubt.club/api/root/export/user?'
         url = url + 'api_key='+this.$store.getters.GET_API_KEY;
         window.open(url)
       }
