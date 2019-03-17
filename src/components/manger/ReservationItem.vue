@@ -17,23 +17,21 @@
         <p>创建时间：{{r.create_time|dateFormat}}</p>
         <p>用户信息：</p>
         <ul>
-          <li>姓名：{{r.user_info.name}}</li>
-          <li>性别：{{r.user_info.sex=='male'? '男':'女'}}</li>
-          <li>手机：{{r.user_info.phone}}</li>
-          <li>QQ：{{r.user_info.qq}}</li>
+          <li>姓名：{{r.user_info.name}}({{r.user_info.sex=='male'? '男':'女'}})</li>
+          <li>联系方式： 手机：{{r.user_info.phone}} QQ：{{r.user_info.qq}}</li>
         </ul>
       </div>
       <div v-show="r.bt_user_info">
         <p>接单队员信息：</p>
         <ul>
-          <li>姓名：{{r.bt_user_info.name}}</li>
-          <li>性别：{{r.bt_user_info.sex=='male'? '男':'女'}}</li>
-          <li>手机：{{r.bt_user_info.phone}}</li>
-          <li>QQ：{{r.bt_user_info.qq}}</li>
+          <li>姓名：{{r.bt_user_info.name}} (性别：{{r.bt_user_info.sex=='male'? '男':'女'}})</li>
+          <li>联系方式： 手机：{{r.bt_user_info.phone}} QQ：{{r.bt_user_info.qq}}</li>
         </ul>
       </div>
-      <div v-show="r.status==6">
+      <div v-show="r.status>=4">
         <p>完成时间：{{r.finish_time|dateFormat}}</p>
+      </div>
+      <div v-show="r.status==6">
         <p>评价：{{r.evaluation}}</p>
         <p>评分：<el-rate v-model="r.score" disabled
                        show-score text-color="#ff9900" score-template="{value}"></el-rate>
